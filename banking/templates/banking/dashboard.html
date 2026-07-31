@@ -1,0 +1,31 @@
+{% extends 'banking/base.html' %}
+{% block title %}Dashboard - Stealt Bank{% endblock %}
+
+{% block content %}
+<div class="dash-header">
+  <a href="{% url 'banking:landing' %}" class="logo">Chase bank</a>
+  <div class="dash-nav">
+    <a href="#">Accounts</a>
+    <a href="#">Transfer</a>
+    <a href="#">Pay Bills</a>
+    <a href="{% url 'banking:logout' %}" class="logout">Logout</a>
+  </div>
+</div>
+
+<div class="dashboard">
+  <h1>Welcome back, {{ request.user.first_name|default:request.user.username }}</h1>
+  <p class="dashboard-sub">Here's a summary of your accounts</p>
+  
+  <div class="accounts-grid">
+    {% for account in accounts %}
+    <div class="account-card">
+      <div class="account-type">{{ account.get_account_type_display }}</div>
+      <div class="account-num">**** {{ account.account_number|slice:"-4:" }}</div>
+      <div class="account-balance">${{ account.balance }}</div>
+    </div>
+    {% empty %}
+    <p>No accounts found.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

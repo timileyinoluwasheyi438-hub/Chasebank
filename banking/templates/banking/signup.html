@@ -1,0 +1,66 @@
+{% extends 'banking/base.html' %}
+{% block title %}Open an Account - Chase Bank{% endblock %}
+
+{% block content %}
+<div class="signup-page">
+  <div class="signup-card">
+    <h2>Create your account</h2>
+    
+    {% if form.errors %}
+      <div class="messages">
+        {% for field, errors in form.errors.items %}
+          {% for error in errors %}
+            <li class="error">{{ error }}</li>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    <form method="post" action="{% url 'banking:signup' %}">
+      {% csrf_token %}
+      <div class="signup-row">
+        <div class="signup-field">
+          <label for="id_first_name">First Name</label>
+          <input type="text" name="first_name" id="id_first_name" required>
+        </div>
+        <div class="signup-field">
+          <label for="id_last_name">Last Name</label>
+          <input type="text" name="last_name" id="id_last_name" required>
+        </div>
+      </div>
+      <div class="signup-field">
+        <label for="id_email">Email</label>
+        <input type="email" name="email" id="id_email" required>
+      </div>
+      <div class="signup-field">
+        <label for="id_username">Username</label>
+        <input type="text" name="username" id="id_username" required>
+      </div>
+      <div class="signup-field">
+        <label for="id_phone_number">Phone Number</label>
+        <input type="tel" name="phone_number" id="id_phone_number">
+      </div>
+      <div class="signup-field">
+        <label for="id_account_type">Account Type</label>
+        <select name="account_type" id="id_account_type">
+          <option value="checking">Everyday Checking</option>
+          <option value="savings">Growth Savings</option>
+        </select>
+      </div>
+      <div class="signup-row">
+        <div class="signup-field">
+          <label for="id_password1">Password</label>
+          <input type="password" name="password1" id="id_password1" required>
+        </div>
+        <div class="signup-field">
+          <label for="id_password2">Confirm Password</label>
+          <input type="password" name="password2" id="id_password2" required>
+        </div>
+      </div>
+      <button type="submit" class="signup-submit">Open an account</button>
+    </form>
+    
+    <p class="signup-footer">Already have an account? <a href="{% url 'banking:login' %}">Sign in</a></p>
+  </div>
+</div>
+{% endblock %}
