@@ -1,8 +1,7 @@
 import random
 import string
-
-from django.contrib.auth.models import User
 from django.db import models
+from django.contrib.auth.models import User
 
 
 def generate_account_number():
@@ -31,7 +30,7 @@ class Account(models.Model):
     opened_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.get_account_type_display()} •••• {self.account_number[-4:]}"
+        return f"{self.get_account_type_display()} ****{self.account_number[-4:]}"
 
 
 class Transaction(models.Model):
@@ -48,3 +47,17 @@ class Transaction(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+
+
+class SecurityQuestion(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='security_question')
+    question_text = models.CharField(max_length=255)
+    answer_text = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Security Q for {self.user.username}"
+
+    class Meta:
+        verbose_name = "Security Question"
+        verbose_name_plural = "Security Questions"
